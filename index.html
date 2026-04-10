@@ -1,11 +1,549 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Priya Bhavikatti</title>
-</head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --red:    #c8102e;
+      --green:  #2cb87a;
+      --yellow: #f5d74e;
+      --teal:   #00a99d;
+      --black:  #1a1108;
+      --paper:  #faf7f0;
+      --paper2: #f3efe4;
+      --muted:  #8a7f6e;
+      --serif:  'DM Serif Display', Georgia, serif;
+      --sans:   'Figtree', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── RISO: Global grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    /* ── RISO: Off-registration heading shadow ── */
+    .riso-heading {
+      position: relative;
+      display: inline;
+    }
+    .riso-heading::before {
+      content: attr(data-text);
+      position: absolute;
+      left: 2px; top: 2px;
+      color: var(--green);
+      opacity: 0.4;
+      pointer-events: none;
+      font-family: inherit;
+      font-size: inherit;
+      font-style: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      z-index: -1;
+      white-space: nowrap;
+    }
+    .riso-heading.reg-red::before  { color: var(--red);  opacity: 0.3; left: -2px; top: 2px; }
+    .riso-heading.reg-teal::before { color: var(--teal); opacity: 0.35; left: 2px; top: -1px; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(250,247,240,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1.5px solid rgba(26,17,8,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 60px;
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 20px;
+      color: var(--black); text-decoration: none; letter-spacing: -0.3px;
+    }
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; font-weight: 400; color: var(--muted);
+      text-decoration: none; transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1.5px; background: var(--red);
+      transition: width 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── BANNER ── */
+    .banner-section {
+      width: 100%; max-height: 480px; overflow: hidden; position: relative;
+    }
+    .banner-section img {
+      width: 100%; height: 480px; object-fit: cover;
+      object-position: center; display: block;
+    }
+    .banner-section::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 30% 50%, rgba(200,16,46,0.06) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 40%, rgba(44,184,122,0.05) 0%, transparent 55%);
+      mix-blend-mode: multiply;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 72px 48px 64px; max-width: 900px; position: relative;
+    }
+    /* RISO: halftone dot cluster behind hero */
+    .hero::before {
+      content: ''; position: absolute; right: 40px; top: 40px;
+      width: 260px; height: 260px;
+      background-image: radial-gradient(circle, rgba(200,16,46,0.16) 1.5px, transparent 1.5px);
+      background-size: 16px 16px; border-radius: 50%; pointer-events: none; z-index: 0;
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 500; letter-spacing: 1.4px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+    }
+    .riso-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--red);
+      display: inline-block; flex-shrink: 0;
+      box-shadow: -2px 1px 0 rgba(44,184,122,0.55);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.55; transform: scale(0.75); }
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 7.5vw, 76px);
+      line-height: 1.06; letter-spacing: -2.5px; margin-bottom: 24px;
+    }
+    .hero h1 .c-red   { color: var(--red);   font-style: italic; }
+    .hero h1 .c-green { color: var(--green); }
+
+    .hero-sub {
+      font-size: 17px; color: #5c5040; max-width: 520px; line-height: 1.75;
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .tag {
+      font-size: 12px; font-weight: 500; padding: 5px 14px;
+      border-radius: 20px; letter-spacing: 0.3px;
+    }
+    .tag-red    { background: #fce8ec; color: #9b0c22; outline: 1.5px solid rgba(155,12,34,0.22); }
+    .tag-green  { background: #d8f5e8; color: #1a7a4e; outline: 1.5px solid rgba(26,122,78,0.22); }
+    .tag-yellow { background: #fdf4c4; color: #7a5f00; outline: 1.5px solid rgba(122,95,0,0.2); }
+    .tag-black  { background: var(--black); color: var(--paper); }
+
+    /* ── SECTIONS ── */
+    section { padding: 88px 48px; position: relative; }
+    section:nth-child(odd) { background: var(--paper2); }
+
+    .section-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 52px;
+    }
+    .section-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 44px);
+      letter-spacing: -1px; line-height: 1.1; flex-shrink: 0;
+    }
+    .section-num {
+      font-size: 11px; color: var(--muted);
+      font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; flex-shrink: 0;
+    }
+    /* RISO: dot strip that fills the rest of the header row */
+    .section-dots {
+      flex: 1; height: 8px;
+      background-image: radial-gradient(circle, rgba(200,16,46,0.28) 1.5px, transparent 1.5px);
+      background-size: 13px 13px;
+      background-repeat: repeat-x; background-position: left center;
+      margin-left: 4px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--paper); }
+    #about::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 200px; height: 200px;
+      background-image: radial-gradient(circle, rgba(44,184,122,0.22) 1.5px, transparent 1.5px);
+      background-size: 14px 14px; pointer-events: none;
+    }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: start;
+    }
+    .about-text p {
+      font-size: 16px; color: #4a3f30; line-height: 1.85; margin-bottom: 18px;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .accent-bar {
+      width: 48px; height: 5px; border-radius: 2px;
+      background: var(--red); margin-bottom: 24px;
+      box-shadow: 3px 2px 0 rgba(44,184,122,0.5);
+    }
+
+    .about-aside { display: flex; flex-direction: column; gap: 14px; }
+    .about-card {
+      background: var(--paper); border: 1.5px solid rgba(26,17,8,0.1);
+      border-radius: 12px; padding: 18px 22px; position: relative; overflow: hidden;
+    }
+    .about-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 64px; height: 64px;
+      background-image: radial-gradient(circle, rgba(200,16,46,0.13) 1px, transparent 1px);
+      background-size: 8px 8px; border-radius: 0 12px 0 0; pointer-events: none;
+    }
+    .about-card-label {
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin-bottom: 5px;
+    }
+    .about-card-value { font-size: 15px; color: var(--black); }
+
+    /* ── CARDS ── */
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+    }
+    .card {
+      background: var(--paper); border: 1.5px solid rgba(26,17,8,0.12);
+      border-radius: 16px; padding: 28px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex; flex-direction: column; gap: 12px;
+      text-decoration: none; color: inherit; position: relative; overflow: hidden;
+    }
+    /* RISO: halftone dot corner on every card */
+    .card::after {
+      content: ''; position: absolute; bottom: -12px; right: -12px;
+      width: 96px; height: 96px;
+      background-image: radial-gradient(circle, rgba(200,16,46,0.15) 1.5px, transparent 1.5px);
+      background-size: 10px 10px; border-radius: 50%; pointer-events: none;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 4px 6px 0 rgba(44,184,122,0.22), 0 14px 28px rgba(26,17,8,0.07);
+    }
+    .card.placeholder { border-style: dashed; background: transparent; opacity: 0.55; }
+    .card.placeholder:hover { transform: none; box-shadow: none; }
+
+    .card-eyebrow {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    .card-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .card h3 { font-family: var(--serif); font-size: 21px; line-height: 1.2; letter-spacing: -0.3px; }
+    .card p { font-size: 14px; color: #6b5f4f; line-height: 1.65; flex: 1; }
+    .card-arrow { font-size: 18px; color: #c8bfb0; margin-top: 4px; transition: color 0.2s, transform 0.2s; }
+    .card:hover .card-arrow { color: var(--red); transform: translate(3px, -3px); }
+
+    /* ── COLLAGE ── */
+    #collage { position: relative; }
+    /* RISO: big yellow dot field behind collage */
+    #collage::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 50%; height: 100%;
+      background-image: radial-gradient(circle, rgba(245,215,78,0.32) 2px, transparent 2px);
+      background-size: 20px 20px; pointer-events: none; z-index: 0;
+    }
+    #collage > * { position: relative; z-index: 1; }
+
+    .collage-note { font-size: 15px; color: #6b5f4f; margin-bottom: 32px; max-width: 560px; }
+    .collage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .collage-item {
+      border-radius: 12px; overflow: hidden;
+      background: #e8e0d0; aspect-ratio: 4/3; position: relative;
+      box-shadow: 2px 3px 0 rgba(200,16,46,0.14);
+    }
+    .collage-item:first-child { grid-column: span 2; aspect-ratio: 16/9; }
+    .collage-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.4s ease;
+    }
+    .collage-item:hover img { transform: scale(1.04); }
+    .collage-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: #b0a090; font-style: italic;
+      background-image: radial-gradient(circle, rgba(26,17,8,0.08) 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black); color: #e8e0d0;
+      padding: 64px 48px; display: flex; flex-direction: column; gap: 40px;
+      position: relative; overflow: hidden;
+    }
+    footer::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(200,16,46,0.22) 1px, transparent 1px);
+      background-size: 18px 18px; pointer-events: none; opacity: 0.4;
+    }
+    footer > * { position: relative; z-index: 1; }
+
+    .footer-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 36px;
+    }
+    .footer-logo {
+      font-family: var(--serif); font-size: 32px; letter-spacing: -0.5px;
+      text-shadow: -2px 2px 0 rgba(44,184,122,0.38);
+    }
+    .footer-logo span { color: var(--red); }
+    .footer-tagline { font-size: 14px; color: #8a7f6e; margin-top: 8px; max-width: 260px; line-height: 1.6; }
+
+    .footer-link-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 1.4px;
+      color: #5a5040; margin-bottom: 12px; font-weight: 600;
+    }
+    .social-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 500; color: #c8bfb0;
+      text-decoration: none; padding: 8px 16px;
+      border: 1.5px solid #2e2618; border-radius: 24px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .social-btn:hover {
+      background: var(--paper); color: var(--black); border-color: var(--paper);
+      box-shadow: 3px 3px 0 rgba(44,184,122,0.38);
+    }
+    .social-btn svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+    .footer-bottom {
+      border-top: 1px solid #2e2618; padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    }
+    .footer-bottom p { font-size: 13px; color: #5a5040; }
+    .footer-bottom .made-with span { color: var(--red); }
+
+    /* ── FADE IN ── */
+    .fade-in { opacity: 0; transform: translateY(16px); animation: fadeUp 0.65s ease forwards; }
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.18s; }
+    .fade-in:nth-child(3) { animation-delay: 0.30s; }
+    .fade-in:nth-child(4) { animation-delay: 0.42s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+      .hero { padding: 48px 24px 48px; }
+      .hero::before { width: 140px; height: 140px; right: 12px; top: 24px; }
+      section { padding: 60px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .collage-grid { grid-template-columns: 1fr 1fr; }
+      .collage-item:first-child { grid-column: span 2; }
+      footer { padding: 48px 24px; }
+    }
+  </style>
+</head>
 <body>
-  <h1>Hi, I'm Priya 👋</h1>
-  <p>This is my first website!</p>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <a class="nav-logo" href="#top">Priya<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#reading">Reading</a></li>
+      <li><a href="#collage">Collage</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Banner ── -->
+  <div class="banner-section" id="top">
+    <img src="youtubr_banner.png" alt="Photos by Priya B banner">
+  </div>
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-eyebrow fade-in">
+      <span class="riso-dot"></span>
+      Creative Portfolio · 2026
+    </div>
+    <h1 class="fade-in">
+      Design, Code<br>
+      &amp; <span class="c-red riso-heading reg-red" data-text="Creative">Creative</span><br>
+      <span class="c-green riso-heading reg-teal" data-text="Curiosity">Curiosity</span>
+    </h1>
+    <p class="hero-sub fade-in">
+      Hi, I'm Priya — a designer, photographer, and creative explorer. This portfolio documents my journey through web design: projects, experiments, and ideas built with HTML, CSS, and p5.js.
+    </p>
+    <div class="hero-tags fade-in">
+      <span class="tag tag-red">HTML &amp; CSS</span>
+      <span class="tag tag-green">p5.js</span>
+      <span class="tag tag-yellow">Photography</span>
+      <span class="tag tag-black">Web Design</span>
+    </div>
+  </div>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="riso-heading reg-red" data-text="About Me">About Me</h2>
+      <div class="section-dots"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="accent-bar"></div>
+        <p>Hey! I'm Priya Bhavikatti — a student, photographer, and creative who loves finding the intersection between art and technology. I'm currently learning web design and exploring how code can be a creative medium.</p>
+        <p>When I'm not writing HTML or experimenting with p5.js, you'll probably find me behind a camera. I run <strong>Photos by Priya B</strong>, where I document people, places, and moments.</p>
+        <p>This portfolio is a living document of everything I'm making and learning — from reading responses to coding projects to visual experiments.</p>
+      </div>
+      <div class="about-aside">
+        <div class="about-card">
+          <div class="about-card-label">Currently studying</div>
+          <div class="about-card-value">Web Design &amp; Intro to Coding</div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Skills in progress</div>
+          <div class="about-card-value">HTML · CSS · JavaScript · p5.js</div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Also into</div>
+          <div class="about-card-value">Photography · Visual storytelling · Design</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ── -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="riso-heading" data-text="Coding Projects">Coding Projects</h2>
+      <div class="section-dots"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card placeholder" href="#">
+        <div class="card-eyebrow" style="color:var(--red)">
+          <span class="card-dot" style="background:var(--red)"></span>Coming Soon
+        </div>
+        <h3>Project 1</h3>
+        <p>Your first project will go here. Drop in the link and description once it's ready!</p>
+        <div class="card-arrow">↗</div>
+      </a>
+      <a class="card placeholder" href="#">
+        <div class="card-eyebrow" style="color:var(--green)">
+          <span class="card-dot" style="background:var(--green)"></span>Coming Soon
+        </div>
+        <h3>Project 2</h3>
+        <p>Your second project will go here.</p>
+        <div class="card-arrow">↗</div>
+      </a>
+      <a class="card placeholder" href="#">
+        <div class="card-eyebrow" style="color:#8a6e00">
+          <span class="card-dot" style="background:var(--yellow)"></span>Coming Soon
+        </div>
+        <h3>Project 3</h3>
+        <p>Your third project will go here.</p>
+        <div class="card-arrow">↗</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Reading Responses ── -->
+  <section id="reading">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="riso-heading reg-teal" data-text="Reading Responses">Reading Responses</h2>
+      <div class="section-dots"></div>
+    </div>
+    <div class="cards-grid">
+      <a class="card placeholder" href="#">
+        <div class="card-eyebrow" style="color:var(--red)">
+          <span class="card-dot" style="background:var(--red)"></span>Reading Response
+        </div>
+        <h3>Response #1</h3>
+        <p>Your reading response will go here once you add it.</p>
+        <div class="card-arrow">↗</div>
+      </a>
+      <a class="card placeholder" href="#">
+        <div class="card-eyebrow" style="color:var(--green)">
+          <span class="card-dot" style="background:var(--green)"></span>Reading Response
+        </div>
+        <h3>Response #2</h3>
+        <p>Your reading response will go here once you add it.</p>
+        <div class="card-arrow">↗</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Collage ── -->
+  <section id="collage">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="riso-heading reg-red" data-text="Collage">Collage</h2>
+      <div class="section-dots"></div>
+    </div>
+    <p class="collage-note">A visual mood board — photos, textures, and things that inspire my creative work.</p>
+    <div class="collage-grid">
+      <!-- Replace collage-placeholder with <img src="..." alt="..."> when ready -->
+      <div class="collage-item"><div class="collage-placeholder">Add image →</div></div>
+      <div class="collage-item"><div class="collage-placeholder">Add image →</div></div>
+      <div class="collage-item"><div class="collage-placeholder">Add image →</div></div>
+      <div class="collage-item"><div class="collage-placeholder">Add image →</div></div>
+      <div class="collage-item"><div class="collage-placeholder">Add image →</div></div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Priya<span>.</span></div>
+        <p class="footer-tagline">Designer, photographer &amp; creative explorer. Always making something.</p>
+      </div>
+      <div>
+        <div class="footer-link-label">Find me online</div>
+        <div class="social-row">
+          <a class="social-btn" href="https://www.photosbypriyab.com" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9V8h2v9zm4 0h-2V8h2v9z"/></svg>Photography
+          </a>
+          <a class="social-btn" href="https://www.instagram.com/photosbypriyab/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram
+          </a>
+          <a class="social-btn" href="https://www.linkedin.com/in/priya-bhavikatti-836a47202/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>LinkedIn
+          </a>
+          <a class="social-btn" href="https://www.youtube.com/@priyabhavikatti222" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>YouTube
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Priya Bhavikatti</p>
+      <p class="made-with">Made with <span>♥</span> + HTML &amp; CSS</p>
+    </div>
+  </footer>
+
 </body>
 </html>
