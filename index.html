@@ -34,7 +34,7 @@
       overflow-x: hidden;
     }
 
-    /* ── RISO: Global grain overlay ── */
+    /* ── RISO: grain overlay ── */
     body::before {
       content: '';
       position: fixed;
@@ -45,7 +45,7 @@
       mix-blend-mode: multiply;
     }
 
-    /* ── RISO: Off-registration heading shadow ── */
+    /* ── RISO: special effect? like a shadow vibe ── */
     .riso-heading {
       position: relative;
       display: inline;
@@ -68,7 +68,7 @@
     .riso-heading.reg-red::before  { color: var(--red);  opacity: 0.3; left: -2px; top: 2px; }
     .riso-heading.reg-teal::before { color: var(--teal); opacity: 0.35; left: 2px; top: -1px; }
 
-    /* ── NAV ── */
+    /* ── navigation bar ── */
     nav {
       position: sticky; top: 0; z-index: 200;
       background: rgba(250,247,240,0.94);
@@ -95,7 +95,7 @@
     .nav-links a:hover { color: var(--black); }
     .nav-links a:hover::after { width: 100%; }
 
-    /* ── BANNER ── */
+    /* ── banner ── */
     .banner-section {
       width: 100%; max-height: 480px; overflow: hidden; position: relative;
     }
@@ -110,7 +110,7 @@
       mix-blend-mode: multiply;
     }
 
-    /* ── HERO ── */
+    /* ──hero ── */
     .hero {
       padding: 72px 48px 64px; max-width: 900px; position: relative;
     }
@@ -160,7 +160,7 @@
     .tag-yellow { background: #fdf4c4; color: #7a5f00; outline: 1.5px solid rgba(122,95,0,0.2); }
     .tag-black  { background: var(--black); color: var(--paper); }
 
-    /* ── SECTIONS ── */
+    /* ── the sections ── */
     section { padding: 88px 48px; position: relative; }
     section:nth-child(odd) { background: var(--paper2); }
 
@@ -225,7 +225,7 @@
     }
     .about-card-value { font-size: 15px; color: var(--black); }
 
-    /* ── CARDS ── */
+    /* ── the CARDS ── */
     .cards-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
     }
