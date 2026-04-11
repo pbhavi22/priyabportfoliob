@@ -67,7 +67,28 @@
     }
     .riso-heading.reg-red::before  { color: var(--red);  opacity: 0.3; left: -2px; top: 2px; }
     .riso-heading.reg-teal::before { color: var(--teal); opacity: 0.35; left: 2px; top: -1px; }
-
+/* ── PROFILE PIC ONE── */
+    .about-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.about-photo img {
+  width: 180px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid rgba(200,16,46,0.2);
+  box-shadow: 4px 4px 0 rgba(44,184,122,0.3);
+}
+.about-photo-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+    
     /* ── navigation bar ── */
     nav {
       position: sticky; top: 0; z-index: 200;
@@ -195,8 +216,16 @@
     }
 
     .about-grid {
-      display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: start;
-    }
+  display: grid;
+  grid-template-columns: 200px 1.2fr 1fr;  /* was: 1.2fr 1fr */
+  gap: 56px;
+  align-items: start;
+}
+    <div class="about-photo">
+  <img src="priya.jpg" alt="Priya Bhavikatti Image" />
+  <span class="about-photo-label">photosbypriyab</span>
+</div>
+    
     .about-text p {
       font-size: 16px; color: #4a3f30; line-height: 1.85; margin-bottom: 18px;
     }
